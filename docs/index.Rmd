@@ -1,0 +1,16 @@
+---
+title: "PA 446 Midterm"
+author: "Justin Valle"
+date: "2026-10-16"
+output: html_document
+---
+
+# Part 1: Repository and Workflow
+
+# Part 2: Web Scraping
+
+# Part 3: Open Data API
+
+# Part 4: Census API
+
+# Part 5: Civic Data Ethics
