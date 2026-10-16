@@ -115,7 +115,7 @@ nrow(book_info)
 head(book_info)
 
 # save to repository as CSV
-write_csv(book_info, "book_info.csv")
+write_csv(book_info, "books.csv")
 
 # BONUS!!!!
 # add book ratings variable
@@ -135,8 +135,8 @@ book_ratings <- case_when(
 book_info <- book_info |>
   mutate(star_rating = book_ratings)
 book_info
-# save updated csv
-write_csv(book_info, "book_info.csv")
+# save updated 
+write_csv(book_info, "books.csv")
 ```
 
 # Part 3: Open Data API
