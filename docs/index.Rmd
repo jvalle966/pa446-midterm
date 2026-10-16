@@ -11,9 +11,21 @@ output: html_document
 library(tidyverse)
 library(rvest)
 library(janitor)
+library(httr)
+library(jsonlite)
 ```
 
 # Part 1: Repository and Workflow
+
+### 1. Set up the repository.
+
+### 2. Keep a clear commit history. 
+
+### 3. Use a branch and a pull request. 
+
+### 4. Track your work with an issue. 
+
+### 5. Publish a GitHub Page. 
 
 # Part 2: Web Scraping
 
@@ -140,6 +152,71 @@ write_csv(book_info, "books.csv")
 ```
 
 # Part 3: Open Data API
+
+### 1. Request the 1,000 most recent service requests in West Town that were created on or after January 1, 2026. 
+
+### 2. Convert the JSON response to a data frame. Print the number of rows and the column names.
+
+### 3. Summarize. [4 points] Count the requests by sr_type and show the 10 most common request types
+
+### 4. In 2 to 3 sentences, say what this summary suggests about service needs in West Town and name one thing the data cannot tell you.
+
+The most frequent 311 requests made in West Town suggests that service needs of that area largely revolve around graffiti removal, rodent management, and parking code enforcement amongst other things. This data does not tell us the severity/significance of the effect the issue being requested has on residents.
+
+### Bonus: For requests with status "Completed", compute the median number of days between
+created_date and closed_date for each of the 5 most common request types.
+
+```{r}
+# 311 service requests API
+url_311 <- ("https://data.cityofchicago.org/resource/v6vf-nfxy.json")
+
+# requesting the data
+response_311 <- GET(
+  url_311,
+  query = list(
+    community_area = "24",
+    `$where` = "created_date >= '2026-01-01T00:00:00'",
+    `$order` = "created_date DESC",
+    `$limit` = 1000
+  )
+)
+```
+
+```{r}
+# convert json response to dataframe
+requests_311 <- fromJSON(content(response_311, "text"))
+# check number of rows to ensure 1000
+nrow(requests_311)
+names(requests_311)
+
+# count requests by service type and display 10 most common
+request_counts <- requests_311 |>
+  count(sr_type)
+
+#display 10 most common request types
+request_counts |>
+  arrange(desc(n)) |>
+  head(10)
+
+```
+
+```{r}
+# BONUS
+# find 5 most common request types
+top_5_types <- requests_311 |>
+  count(sr_type) |>
+  arrange(desc(n)) |>
+  head(5)
+top_5_types
+
+# filter completed, calculate days, and calculate median 
+requests_311 |>
+  filter(status == "Completed",
+         sr_type %in% top_5_types$sr_type) |>
+  mutate(days = as.numeric(difftime(closed_date, created_date, units = "days"))) |>
+  group_by(sr_type) |>
+  summarise(median_days = median(days, na.rm = TRUE))
+```
 
 # Part 4: Census API
 
