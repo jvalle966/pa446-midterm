@@ -63,6 +63,80 @@ nrow(community_areas)
 head(community_areas)
 ```
 
+## Question 2: Scrape with CSS Selectors
+
+### 1. Extract three variables using CSS selectors and combine them in a tibble with 20 rows
+
+### 2. Convert price to a numeric variable, then save the table to your repo as books.csv
+
+### Bonus: Add star rating of each book as a number 1 to 5
+
+```{r}
+# load books to scrape website
+books_url <- "https://books.toscrape.com/"
+books_html <- read_html(books_url)
+
+# extract the book titles
+book_titles <- books_html |>
+  html_elements("article.product_pod h3 a") |>
+  html_attr("title")
+# check books total
+length(book_titles)
+
+# extract book prices
+book_prices <- books_html |>
+  html_elements("article.product_pod .price_color") |>
+  html_text2()
+# check price totals
+length(book_prices)
+
+# extract book availability
+book_availability <- books_html |>
+  html_elements("article.product_pod .availability") |>
+  html_text2()
+# check availability totals
+length(book_availability)
+
+# combine into tibble with 20 rows
+book_info <- tibble(
+  title = book_titles,
+  price = book_prices,
+  availability = book_availability
+)
+# show tibble
+book_info
+
+# convert price to numeric
+book_info <- book_info |>
+  mutate(price = as.numeric(str_remove_all(price, "£")))
+# confirm price converstion and book totals
+class(book_info$price)
+nrow(book_info)
+head(book_info)
+
+# save to repository as CSV
+write_csv(book_info, "book_info.csv")
+
+# BONUS!!!!
+# add book ratings variable
+book_ratings <- books_html |>
+  html_elements("article.product_pod .star-rating") |>
+  html_attr("class")
+# remove prefix
+book_ratings <- str_remove_all(book_ratings, "star-rating ")
+# convert to numeric
+book_ratings <- case_when(
+  book_ratings == "One" ~ 1,
+  book_ratings == "Two" ~ 2,
+  book_ratings == "Three" ~ 3,
+  book_ratings == "Four" ~ 4,
+  book_ratings == "Five" ~ 5)
+# add to table
+book_info <- book_info |>
+  mutate(star_rating = book_ratings)
+book_info
+```
+
 # Part 3: Open Data API
 
 # Part 4: Census API
