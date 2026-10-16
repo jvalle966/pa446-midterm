@@ -5,9 +5,63 @@ date: "2026-10-16"
 output: html_document
 ---
 
+## Load Packages
+
+```{r}
+library(tidyverse)
+library(rvest)
+library(janitor)
+```
+
 # Part 1: Repository and Workflow
 
 # Part 2: Web Scraping
+
+## Question 1: Scrape a Table
+
+### 1. Read the page into R and extract the table as a data frame.
+
+### 2. Clean the column names, remove the row of citywide totals so that 77 rows remain, and convert total population to a numeric value.
+
+### 3. Print the row for West Town, then print five community areas with the largest population.
+
+```{r}
+# read the elements into R
+url <- "https://en.wikipedia.org/wiki/Community_areas_in_Chicago"
+html <- read_html(url) 
+# extracting tables from Wikipedia
+tables <- html |>
+  html_elements("table") |>
+  html_table()
+# check how many tables were extracted 
+length(tables)
+#look for population table
+tables[[2]]
+# select community areas table
+community_areas <- tables[[2]]
+# clean columns
+community_areas <- community_areas |>
+  clean_names()
+# check names
+names(community_areas)
+# remove citywide totals row
+community_areas <- community_areas |>
+  filter(name != "Chicago")
+# convert population to numeric (must remove commas)
+community_areas <- community_areas |>
+  mutate(total_population = as.numeric(str_remove_all(total_population, ",")))
+# check if conversion was successful
+class(community_areas$total_population)
+# print row for West Town & print five community areas with largest pop
+community_areas |> 
+  filter(name == "West Town")
+community_areas |>
+  arrange(desc(total_population)) |>
+  head(5)
+# check total of remaining community areas & display first 6
+nrow(community_areas)
+head(community_areas)
+```
 
 # Part 3: Open Data API
 
