@@ -13,6 +13,7 @@ library(rvest)
 library(janitor)
 library(httr)
 library(jsonlite)
+library(tidycensus)
 ```
 
 # Part 1: Repository and Workflow
@@ -219,5 +220,11 @@ requests_311 |>
 ```
 
 # Part 4: Census API
+
+## Step 1: Identify the variables
+
+Gross Rent as a Percentage of Household Income, "50% or more": B25070_010E
+
+Median Household Income: B19013_001E
 
 # Part 5: Civic Data Ethics
