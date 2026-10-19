@@ -14,6 +14,7 @@ library(janitor)
 library(httr)
 library(jsonlite)
 library(tidycensus)
+library(ggplot2)
 ```
 
 # Part 1: Repository and Workflow
@@ -271,7 +272,6 @@ ohio_bonus <- clean_ohioacs |> # created seperate df because the new columns rep
 # check that county and state columns were made successfully
 head(ohio_bonus)
 
-
 ```
 
 ## Step 4: Analyze
@@ -280,7 +280,16 @@ head(ohio_bonus)
 2.  Identify the 5 counties with the highest rates and the 5 with the lowest rates
 
 ```{r}
-
+# compute mean and median severe rent burden rates
+clean_ohioacs |>
+  summarize(
+    mean_rate = mean(severe_burden_rate, na.rm = TRUE),
+    median_mean = median(severe_burden_rate, na.rm = TRUE)
+  )
+# 5 counties with highest rates
+head(clean_ohioacs, 5)
+# 5 counties with lowest reates
+tail(clean_ohioacs, 5)
 ```
 
 ## Step 5: Visualize
@@ -290,6 +299,31 @@ head(ohio_bonus)
 
 ```{r}
 
+# Relationship between MHI and SRB
+ggplot(clean_ohioacs, aes(x = median_income, y = severe_burden_rate)) + geom_point() +
+  geom_smooth(method = "lm") + # add regression line
+  labs(
+    title = "Median Household Income and Severe Rent Burden for Ohio",
+    x = "Median Household Income ($)",
+    y = "Severe Rent Burden Rate (%)"
+  )
+
+# Bar chart of top 5 and bottom 5 counties
+top5_bottom5_ohio <- bind_rows( # combine top 5 and bottom 5
+  head(clean_ohioacs, 5),
+  tail(clean_ohioacs, 5)
+)
+ggplot(top5_bottom5_ohio,
+       aes(x = reorder(NAME, severe_burden_rate),
+           y = severe_burden_rate)) +
+  geom_col(fill = "darkred") +
+  coord_flip() + # make bars horizontal so labels can be read
+  theme_light() +
+  labs(
+    title = "Top and Bottom 5 Severe Rent Burden by Ohio Counties",
+    x = "County",
+    y = "Severe Rent Burden Rate Percentage"
+  )
 ```
 
 ## Part 6: Reflect
