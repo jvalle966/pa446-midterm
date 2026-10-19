@@ -227,4 +227,63 @@ Gross Rent as a Percentage of Household Income, "50% or more": B25070_010E
 
 Median Household Income: B19013_001E
 
+## Step 2: Retrieve the data
+
+## Step 3: Clean and transform
+
+```{r}
+# Retreiving 2024 ACS data for Ohio
+ohio_acs <- get_acs(
+  geography = "county",
+  variables = c(
+    rent_burden = "B25070_010",
+    median_income = "B19013_001",
+    rent_total = "B25070_001"
+    ),
+  state = "OH",
+  year = 2024,
+  survey = "acs5"
+)
+
+head(ohio_acs) # check results
+
+# Clean and transform the data
+clean_ohioacs <- ohio_acs |>
+  select(GEOID, NAME, variable, estimate) |>
+  pivot_wider( # make variable column into seperate columns
+    names_from = variable, # create columns from variable categories
+    values_from = estimate 
+  )
+
+# Calculate severe rent burden rate and sort counties
+clean_ohioacs <- clean_ohioacs|>
+  mutate(severe_burden_rate = (rent_burden / rent_total) * 100) |> arrange(desc(severe_burden_rate))
+
+```
+
+## Bonus: Split the NAME column into separate county and state columns
+
+## Step 4: Analyze
+
+1.  Compute the mean and the median severe_burden_rate across counties
+2.  Identify the 5 counties with the highest rates and the 5 with the lowest rates
+
+```{r}
+
+```
+
+## Step 5: Visualize
+
+1.  Scatterplot of median household income against severe_burden_rate with a regression line, labeled axes, and an informative title.
+2.  Bar chart of the top 5 and bottom 5 counties from Step 4, with bars in order
+
+```{r}
+
+```
+
+## Part 6: Reflect
+
+1.  What relationships do you see between income and severe rent burden in Ohio, and what might explain it?
+2.  What are the two limitations of using county_level ACS estimates to decide where to target rental assistance?
+
 # Part 5: Civic Data Ethics
