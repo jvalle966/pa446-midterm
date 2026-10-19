@@ -328,7 +328,14 @@ ggplot(top5_bottom5_ohio,
 
 ## Part 6: Reflect
 
-1.  What relationships do you see between income and severe rent burden in Ohio, and what might explain it?
-2.  What are the two limitations of using county_level ACS estimates to decide where to target rental assistance?
+#### 1. What relationships do you see between income and severe rent burden in Ohio, and what might explain it?
+
+The scatterplot suggests a negative relationship between median household income and severe rent burden rates across Ohio counties. The relationship appears to be weak, as demonstrated by the variation of points around the regression line. A possible explanation for this could be that households in lower income areas may spend a greater portion of their income on housing costs.
+
+#### 2. What are the two limitations of using county_level ACS estimates to decide where to target rental assistance? 
+
+For one, aggregating at the county level prevents differences between neighborhoods from being seen and understood. In other words, a county with a low severe rent burden rate could still contain neighborhoods where manny households struggle to afford rent.
+
+Secondly, the ACS uses survey samples for their estimations population characteristics, therefore county-level estimates have margins of error that can affect accuracy between comparisons.
 
 # Part 5: Civic Data Ethics
