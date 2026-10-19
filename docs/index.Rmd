@@ -353,3 +353,7 @@ This question reminds me of the Boston Street Bump example used in week two. In 
 Based on the criteria discussed in week 5, I believe the scraping done in part 2 was appropriate. The three conditions discussed where scraping is appropriate include: 1. The information is openly accessible, 2. the information is non personal, 3. The information is objective. The information scraped from Wikipedia was public information that did not identify private individuals. The Books to Scrape data also met both of these categories and, additionally, was intended specifically for scraping practice.
 
 An example where scraping without further review would not be appropriate is may be scraping a government website that contains financial assistance applications including applicants names,, addresses, and household incomes. For one, this information likely requires a login or authorization. Secondly, the data has the potential to expose sensitive information about identifiable individuals.
+
+# AI Use Statement
+
+AI was used at times during this assignment to help identify certain functions I was unfamiliar with. This includes in part 4, where I used ChatGPT to figure out a way to ensure I had previously registered my census API key into R (Sys.getenv("CENSUS_API_KEY") != ""). Additionally, ChatGPT was used in part 2 to refresh my memory on where to look when inspecting a web page for specific HTML elements.
