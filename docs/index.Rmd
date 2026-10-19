@@ -339,3 +339,17 @@ For one, aggregating at the county level prevents differences between neighborho
 Secondly, the ACS uses survey samples for their estimations population characteristics, therefore county-level estimates have margins of error that can affect accuracy between comparisons.
 
 # Part 5: Civic Data Ethics
+
+#### 1. Privacy. [5 points] The 311 dataset includes the street address and coordinates of each request. Suppose you wanted to publish a map of West Town requests on your GitHub Page. Identify one privacy risk, then explain how you would apply one de-identification technique before publishing.
+
+This hypothetical brings the privacy risk of re-identification into light. Re-identification refers to the process of matching or linking de-identified data back to a specific individual by combining it with external information. Although the 311 data does not contain names, publishing exact addresses and coordinates could allow someone to identify a household associated with a complaint using other publicly available data. A fix for this could be data minimization, which emphasizes collecting and sharing only necessary information. In this context, this may look like aggregating the data by census tract in order to avoid publishing individual request locations.
+
+#### 2. Bias and data quality. [5 points] 311 data shows where people report problems, which is not always where problems exist. Explain how this could mislead a city manager who assigns repair crews by request counts, and describe one way to check for or reduce that bias.
+
+This question reminds me of the Boston Street Bump example used in week two. In this case civic technology was created to allow residents to report potholes via a smartphone application. Good in theory, the outcome was higher participation in wealthier, more technologically advanced neighborhoods causing neighborhoods with less smartphone access to be underrepresented. I believe this example is one that mirrors the outcomes of a city manager assigning repair crews by request counts; repair crews are allocated disproportionately and inequities are reinforced. One way to address this bias might be to interpret 311 data relative to neighborhood population sizes and assign repair crews on this basis.
+
+#### 3. Scraping responsibly. [5 points] Using the criteria discussed in Week 5, explain whether the scraping you did in Part II was appropriate. Then describe one civic data situation where you should not scrape without further review.
+
+Based on the criteria discussed in week 5, I believe the scraping done in part 2 was appropriate. The three conditions discussed where scraping is appropriate include: 1. The information is openly accessible, 2. the information is non personal, 3. The information is objective. The information scraped from Wikipedia was public information that did not identify private individuals. The Books to Scrape data also met both of these categories and, additionally, was intended specifically for scraping practice.
+
+An example where scraping without further review would not be appropriate is may be scraping a government website that contains financial assistance applications including applicants names,, addresses, and household incomes. For one, this information likely requires a login or authorization. Secondly, the data has the potential to expose sensitive information about identifiable individuals.
